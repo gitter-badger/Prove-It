@@ -5,10 +5,16 @@ var should = require('should');
 
 describe('Array Validator', function () {
     it('should run the example', function () {
+        var date = (new Date()).toUTCString();
+
         var doc = {
             name: {
                 first: 'hello',
                 last: 'world'
+            },
+            dates: {
+                start: date,
+                end: date
             },
             phones: [
                 {
@@ -27,6 +33,16 @@ describe('Array Validator', function () {
                 first: prove('First Name').isString().isLength(4),
                 last: prove('Last Name').isString().isLength(6)
             }),
+            dates: prove(function (date) {
+                if (null != date) {
+                    return prove({
+                        start: prove('Start date').isDate().isBefore(date.end),
+                        end: prove('End date').isDate().isAfter(date.start)
+                    });
+                } else {
+                    return prove('Date').isRequired();
+                }
+            }),
             phones: prove([ // Prove an entire array.
                 {
                     number: prove('Phone Number').isString().isPhoneNumber(),
@@ -41,6 +57,12 @@ describe('Array Validator', function () {
                     'Last Name should be more than 6 characters long'
                 ],
                 'value': 'world'
+            },
+            'dates.end': {
+                'message': [
+                    'End date should be after ' + date
+                ],
+                'value': date
             },
             'phones.0.label': {
                 'message': [

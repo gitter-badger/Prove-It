@@ -41,6 +41,10 @@ var doc = {
         first: 'hello',
         last: 'world'
     },
+    dates: {
+        start: new Date(),
+        end: new Date()
+    },
     phones: [
         {
             number: '5555555'
@@ -57,6 +61,16 @@ var contactValidation = {
     name: prove({ // Prove nested objects.
         first: prove('First Name').isString().isLength(4),
         last: prove('Last Name').isString().isLength(6)
+    }),
+    dates: prove(function (date) {
+        if (null != date) {
+            return prove({
+                start: prove('Start date').isDate().isBefore(date.end),
+                end: prove('End date').isDate().isAfter(date.start)
+            });
+        } else {
+            return prove('Date').isRequired();
+        }
     }),
     phones: prove([ // Prove an entire array.
         {
@@ -84,6 +98,18 @@ if (true === passed) {
                 ],
                 "value": "world"
             },
+            "dates.start": {
+                "message": [
+                    "Start date should be before Sat, 06 Dec 2014 17:04:51 GMT"
+                ],
+                "value": "Sat, 06 Dec 2014 17:04:51 GMT"
+            },
+            "dates.end": {
+                "message": [
+                    "End date should be after Sat, 06 Dec 2014 17:04:51 GMT"
+                ],
+                "value": "Sat, 06 Dec 2014 17:04:51 GMT"
+            },
             "phones.0.label": {
                 "message": [
                     "Phone Label is a required field"
@@ -105,7 +131,6 @@ if (true === passed) {
         }
     }
     */
-}
 
 ```
 
@@ -134,7 +159,7 @@ myValidator: function(args) {
         },
         msg: '{PATH} should work with myValidator:' + args //The error message for the validator
         //{VALUE} = The value passed into the validator function.
-        //{PATH} = Either the schema path or the path passed into the hgValidate(PATH) chain.
+        //{PATH} = Either the schema path or the path passed into the prove(PATH) chain.
     }
 }
 ```
@@ -232,7 +257,7 @@ var mySimpleArrayValidator = prove([
 ]); // Would run isString on all of the array elements.
 
 var myCollectionValidator = prove([{
-    field1: hgValidate('My field').isString()
+    field1: prove('My field').isString()
 }]); // Validates all items in the array against the given object.
 ```
 
