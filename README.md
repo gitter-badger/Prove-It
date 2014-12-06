@@ -5,15 +5,26 @@
     Create composable, re-usable validators with in-depth, client-friendly error messages.
 
 #Instalation
-If you have the node package manager, npm, installed:
 
-    npm install prove-it
+###Server-side
 
-If you are in the browser:
+```Console
+npm install prove-it
+```
 
-[Download](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/bin/prove-it.min.js) and access with:
+```JavaScript
+var prove = require('prove-it');
+```
 
-    window.prove;
+###Client-side [Download](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/bin/prove-it.min.js) and access with:
+
+```HTML
+<script type="text/javascript" src="prove-it.min.js"></script>
+```
+
+```JavaScript
+window.prove;
+```
 
 #Goals
 
@@ -21,6 +32,82 @@ If you are in the browser:
 * Validate all of the fields of an object (even deep ones).
 * Validate entire arrays and collections.
 * An error message structure that is both friendly and usable; for clients and developers.
+
+#Example
+
+```JavaScript
+var doc = {
+    name: {
+        first: 'hello',
+        last: 'world'
+    },
+    phones: [
+        {
+            number: '5555555'
+        },
+        {
+            number: 1,
+            label: 'home',
+            invalidField: 'hacks'
+        }
+    ]
+};
+
+var contactValidation = {
+    name: prove({ // Prove nested objects.
+        first: prove('First Name').isString().isLength(4),
+        last: prove('Last Name').isString().isLength(6)
+    }),
+    phones: prove([ // Prove an entire array.
+        {
+            number: prove('Phone Number').isString().isPhoneNumber(),
+            label: prove('Phone Label').isRequired().isString()
+        }
+    ])
+};
+
+var passed = prove(contactValidation, /**Merge other validations here!*/).test(doc);
+
+if (true === passed) {
+    // Success!
+} else {
+    console.log(passed);
+    // Would output all of the errors!
+    /**
+    {
+        "message": "Validation failed",
+        "name": "ValidationError",
+        "errors": {
+            "name.last": {
+                "message": [
+                    "Last Name should be more than 6 characters long"
+                ],
+                "value": "world"
+            },
+            "phones.0.label": {
+                "message": [
+                    "Phone Label is a required field"
+                ]
+            },
+            "phones.1.number": {
+                "message": [
+                    "Phone Number should be a string",
+                    "Phone Number should be a phone number"
+                ],
+                "value": 1
+            },
+            "phones.1.invalidField": {
+                "message": [
+                    "invalidField is not an allowed field"
+                ],
+                "value": "hacks"
+            }
+        }
+    }
+    */
+}
+
+```
 
 ##Creating A Validator
 1) Create an object and give it a key with the validator name.
@@ -61,7 +148,7 @@ var prove = require('prove-it);
 Prove-It has an attached 'extend' which can take in an object containing validators.
 
 ```JavaScript
-prove.extend({**Validators Here**})
+prove.extend({/**Validators Here*/})
 ```
 
 Eg.
@@ -127,7 +214,7 @@ Returns an object such as:
 { message: 'Validation failed',
   name: 'ValidationError',
   errors:
-   { 'field1': { message: ['My first field should have been a string'], value: 1' },
+   { 'field1': { message: ['My first field should have been a string'], value: 1 },
    { 'field2.subfield': { message: ['Subfield of field2 should have been a string'], value: 2 } }
 ```
 
@@ -157,7 +244,7 @@ Eg.
 
 ```JavaScript
 var myFunctionValidator = prove(function (val) {
-    ... Do stuff with val.
+    // ... Do stuff with val.
     if (val === something) {
         return prove('This value').isString();
     } else {

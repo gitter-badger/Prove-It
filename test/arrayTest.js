@@ -4,6 +4,65 @@ var prove = require('../lib/index.js');
 var should = require('should');
 
 describe('Array Validator', function () {
+    it('should run the example', function () {
+        var doc = {
+            name: {
+                first: 'hello',
+                last: 'world'
+            },
+            phones: [
+                {
+                    number: '5555555'
+                },
+                {
+                    number: 1,
+                    label: 'home',
+                    invalidField: 'hacks'
+                }
+            ]
+        };
+
+        var contactValidation = {
+            name: prove({ // Prove nested objects.
+                first: prove('First Name').isString().isLength(4),
+                last: prove('Last Name').isString().isLength(6)
+            }),
+            phones: prove([ // Prove an entire array.
+                {
+                    number: prove('Phone Number').isString().isPhoneNumber(),
+                    label: prove('Phone Label').isRequired().isString()
+                }
+            ])
+        };
+
+        prove(contactValidation).test(doc).errors.should.containDeep({
+            'name.last': {
+                'message': [
+                    'Last Name should be more than 6 characters long'
+                ],
+                'value': 'world'
+            },
+            'phones.0.label': {
+                'message': [
+                    'Phone Label is a required field'
+                ]
+            },
+            'phones.1.number': {
+                'message': [
+                    'Phone Number should be a string',
+                    'Phone Number should be a phone number'
+                ],
+                'value': 1
+            },
+            'phones.1.invalidField': {
+                'message': [
+                    'invalidField is not an allowed field'
+                ],
+                'value': 'hacks'
+            }
+        });
+    });
+
     it('should validate a simple array', function () {
         var doc = ['555555', 1];
 
