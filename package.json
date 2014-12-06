@@ -1,0 +1,19 @@
+{
+  "name": "prove-it",
+  "version": "0.0.1",
+  "description": "A validation library designed with re-usability in mind.",
+  "author": "Dylan Piercey <pierceydylan@gmail.com>",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DylanPiercey/Prove-It"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.2.1",
+    "grunt-mocha-cli": "^1.10.0",
+    "mocha": "^2.0.1",
+    "should": "^4.2.0",
+    "uglifyify": "^2.6.0"
+  }
+}
