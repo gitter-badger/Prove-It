@@ -1,6 +1,6 @@
 ![Prove It](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/prove-logo.jpg)
 
-###[See the list of default validators](https://github.com/DylanPiercey/FrenchPress/blob/master/Validators.md)
+###[See the list of default validators](https://github.com/DylanPiercey/Prove-It/blob/master/Validators.md)
 
     Create composable, re-usable validators with in-depth, client-friendly error messages.
 
