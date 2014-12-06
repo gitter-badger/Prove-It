@@ -11,7 +11,7 @@ If you have the node package manager, npm, installed:
 
 If you are in the browser:
 
-[Download Minified/Browserified "Prove-It"](https://github.com/DylanPiercey/FrenchPress/blob/master/bin/prove-it.min.js)
+[Download](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/bin/prove-it.min.js) and access with:
 
     window.prove;
 
