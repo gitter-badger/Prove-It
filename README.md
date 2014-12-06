@@ -4,7 +4,7 @@
 
     Create composable, re-usable validators with in-depth, client-friendly error messages.
 
-#Instalation
+#Installation
 
 ###Server-side
 
@@ -165,10 +165,6 @@ myValidator: function(args) {
 ```
 
 ##Extending The Validator
-
-```JavaScript
-var prove = require('prove-it);
-```
 
 Prove-It has an attached 'extend' which can take in an object containing validators.
 
