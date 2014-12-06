@@ -1,4 +1,4 @@
-![Prove It]()
+![Prove It](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/prove-logo.jpg)
 
 ###[See the list of default validators](https://github.com/DylanPiercey/FrenchPress/blob/master/Validators.md)
 
