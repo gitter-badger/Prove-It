@@ -99,6 +99,30 @@ describe('Object Validator', function () {
         });
     });
 
+    it('should compose the fields of multiple objects', function () {
+        var doc = {
+            aNum: 'hi'
+        };
+
+        var test1 = {
+            aNum: prove('Phone Number').isNumeric()
+        };
+
+        var test2 = {
+            aNum: prove('Phone Number').isGt(3)
+        };
+
+        prove(test1, test2).test(doc).errors.should.eql({
+            aNum: {
+                message: [
+                    'Phone Number should only contain numbers',
+                    'Phone Number should be greater than 3'
+                ],
+                value: 'hi'
+            }
+        });
+    });
+
     it('should validate a required fields on an object', function () {
         var doc = {
 
