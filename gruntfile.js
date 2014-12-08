@@ -18,6 +18,9 @@ module.exports = function (grunt) {
                     'bin/prove-it.min.js': ['lib/index.js']
                 },
                 options: {
+                    browserifyOptions: {
+                        standalone: 'prove'
+                    },
                     transform: ['uglifyify']
                 }
             }

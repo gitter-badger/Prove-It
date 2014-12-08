@@ -16,14 +16,27 @@ npm install prove-it
 var prove = require('prove-it');
 ```
 
-###Client-side [Download](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/bin/prove-it.min.js) and access with:
+###Client-side
+
+[Download](https://raw.githubusercontent.com/DylanPiercey/Prove-It/master/bin/prove-it.min.js)
 
 ```HTML
 <script type="text/javascript" src="prove-it.min.js"></script>
 ```
 
 ```JavaScript
-window.prove;
+window.prove; // Global prove.
+```
+
+Or install with bower
+
+```Console
+bower install prove-it
+
+```
+
+```JavaScript
+define(['prove-it'], function (prove) {...});
 ```
 
 #Goals
