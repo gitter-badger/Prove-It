@@ -1,5 +1,7 @@
 #List of Validators
 
+✓ **error** : should always add a given error message
+
 ✓ **isString** : should confirm value is a string
 
 ✓ **isBoolean** : should confirm value is a boolean

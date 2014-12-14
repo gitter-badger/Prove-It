@@ -8,7 +8,7 @@ describe('Function Validator', function () {
         var doc = ['555555', 1];
 
         var test = prove(function (/**val*/) {
-            return [prove('Phone Number').isString().isPhoneNumber()];
+            return prove([prove('Phone Number').isString().isPhoneNumber()]);
         });
 
         test(doc).errors.should.eql({
@@ -33,13 +33,13 @@ describe('Function Validator', function () {
 
 
         var test = prove(function (/**val*/) {
-            return {
+            return prove({
                 name: prove({
                     first: prove('First Name').isString().isLength(6),
                     last: prove('Last Name').isString().isLength(6)
                 }),
                 phone: prove().isPhoneNumber()
-            };
+            });
         });
 
         test(doc).errors.should.eql({

@@ -31,6 +31,42 @@ var test = function (options) {
 
 //TESTS
 describe('Default Validators', function () {
+    it('"error" should always add an error message', function () {
+        test({
+            check: 'error',
+            valid: [
+                common.valueNull
+            ],
+            invalid: [
+                common.integerNumber,
+                common.floatNumber,
+                common.numericExponentNumber,
+                common.booleanTrue,
+                common.booleanFalse,
+                common.booleanInt0,
+                common.booleanInt1,
+                common.asciiString,
+                common.asciiStringWithApostrophe,
+                common.slavicString,
+                common.russianString,
+                common.kanjiString,
+                common.hiraganaString,
+                common.aftricanString,
+                common.arabicString,
+                common.newLineNString,
+                common.newLineNRString,
+                common.presentationalHtml,
+                common.scriptHtml,
+                common.otherHtml,
+                common.valueEmptyString,
+                common.numericStringNumber,
+                common.booleanString0,
+                common.booleanString1,
+                common.typeEmailAddress,
+                common.typeMongoIdString
+            ]
+        });
+    });
     
     it('"isString" should confirm value is a string', function () {
         test({
