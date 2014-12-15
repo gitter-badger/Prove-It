@@ -85,12 +85,12 @@ var contactValidation = {
             return prove('Date').isRequired();
         }
     }),
-    phones: prove([ // Prove an entire array.
-        {
+    phones: prove('Phones').every( // Prove an entire array.
+        prove({
             number: prove('Phone Number').isString().isPhoneNumber(),
             label: prove('Phone Label').isRequired().isString()
-        }
-    ])
+        })
+    )
 };
 
 var passed = prove(contactValidation, /**Merge other validations here!*/).test(doc);
@@ -254,20 +254,19 @@ Returns an object such as:
 
 ##Array Validator
 
-#####(Using an object inside of an array will run the Object validator on every item in the array.)
-#####(Note: Multiple tests within the array will be composed similar to the object validator.)
-
-1) Invoke Prove-It with an array, the first element in the array will be the test that is ran on the array.
+1) Invoke Prove-It and chain with #every, passing every the prove validators to run on each item in the array.
 
 
 ```JavaScript
-var mySimpleArrayValidator = prove([
+var mySimpleArrayValidator = prove('My Array').every(
     prove('Array Item').isString()
-]); // Would run isString on all of the array elements.
+); // Would run isString on all of the array elements.
 
-var myCollectionValidator = prove([{
-    field1: prove('My field').isString()
-}]); // Validates all items in the array against the given object.
+var myCollectionValidator = prove().every(
+    prove({
+        field1: prove('My field').isString()
+    })
+); // Validates all items in the array against the given prove object validator.
 ```
 
 ##Function Validator

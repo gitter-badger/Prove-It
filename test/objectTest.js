@@ -19,10 +19,10 @@ describe('Object Validator', function () {
                 first: prove('First Name').isString().isLength(6),
                 last: prove('Last Name').isString().isLength(6)
             }),
-            phone: prove().isPhoneNumber()
+            phone: prove('Phone Number').isPhoneNumber()
         };
 
-        prove(test)(doc).errors.should.eql({
+        prove(test).test(doc).errors.should.eql({
             'name.first': {
                 message: [ 'First Name should be more than 6 characters long' ],
                 value: 'hello'
@@ -112,7 +112,7 @@ describe('Object Validator', function () {
             aNum: prove('Phone Number').isGt(3)
         };
 
-        prove(test1, test2).test(doc).errors.should.eql({
+        prove('This Thing', test1, test2).test(doc).errors.should.eql({
             aNum: {
                 message: [
                     'Phone Number should only contain numbers',
@@ -136,7 +136,7 @@ describe('Object Validator', function () {
             phone: prove('Phone Number').isRequired().isPhoneNumber()
         };
 
-        prove(test)(doc).errors.should.eql({
+        prove(test).test(doc).errors.should.eql({
             'name.last': {
                 message: [ 'Last Name is a required field' ],
                 value: undefined

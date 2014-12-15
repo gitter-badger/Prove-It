@@ -12,7 +12,7 @@ var test = function (options) {
     if (options.valid) {
         options.valid.forEach(function (value) {
             var validator = prove('[ ' + options.check + ' ]')[options.check].apply({}, options.args || []);
-            var message = validator(value);
+            var message = validator.test(value);
             if (true !== message) {
                 throw new Error((message.errors || message).toString());
             }
@@ -21,7 +21,7 @@ var test = function (options) {
     if (options.invalid) {
         options.invalid.forEach(function (value) {
             var validator = prove()[options.check].apply({}, options.args || []);
-            var message = validator(value);
+            var message = validator.test(value);
             if (true === message) {
                 throw new Error('[ ' + options.check + ' ]' + ' should have failed!');
             }

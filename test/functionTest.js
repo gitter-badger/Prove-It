@@ -8,7 +8,7 @@ describe('Function Validator', function () {
         var doc = ['555555', 1];
 
         var test = prove(function (/**val*/) {
-            return prove([prove('Phone Number').isString().isPhoneNumber()]);
+            return prove().every(prove('Phone Number').isString().isPhoneNumber());
         });
 
         test(doc).errors.should.eql({

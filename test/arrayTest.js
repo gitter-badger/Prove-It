@@ -43,12 +43,12 @@ describe('Array Validator', function () {
                     return prove('Date').isRequired();
                 }
             }),
-            phones: prove([ // Prove an entire array.
-                {
+            phones: prove('Phones').every( // Prove an entire array.
+                prove({
                     number: prove('Phone Number').isString().isPhoneNumber(),
                     label: prove('Phone Label').isRequired().isString()
-                }
-            ])
+                })
+            )
         };
 
         prove(contactValidation).test(doc).errors.should.containDeep({
@@ -88,9 +88,8 @@ describe('Array Validator', function () {
     it('should validate a simple array', function () {
         var doc = ['555555', 1];
 
-        var test = [prove('Phone Number').isString().isPhoneNumber()];
 
-        prove(test)(doc).errors.should.eql({
+        prove('Phones').every(prove('Phone Number').isString().isPhoneNumber()).test(doc).errors.should.eql({
             '1': {
                 message: [
                     'Phone Number should be a string',
@@ -104,12 +103,10 @@ describe('Array Validator', function () {
     it('should compose validators on simple array', function () {
         var doc = ['5555555', '5555555555', 'hello world'];
 
-        var test = [
+        prove('Phones').every(
             prove('Phone Number').isPhoneNumber(),
             prove('Phone Number').isLength(8)
-        ];
-
-        prove(test)(doc).errors.should.eql({
+        ).test(doc).errors.should.eql({
             '0': {
                 message: [ 'Phone Number should be more than 8 characters long' ],
                 value: '5555555'
@@ -127,9 +124,9 @@ describe('Array Validator', function () {
         };
 
         var test = {
-            phones: prove([
+            phones: prove('Phones').every(
                 prove('Phone Number').isString().isPhoneNumber()
-            ])
+            )
         };
 
         prove(test)(doc).errors.should.eql({
@@ -157,10 +154,12 @@ describe('Array Validator', function () {
         };
 
         var test = {
-            phones: prove([{
-                number: prove('Phone Number').isString().isPhoneNumber(),
-                label: prove('Phone Label').isRequired().isString()
-            }])
+            phones: prove('Phones').every(
+                prove({
+                    number: prove('Phone Number').isString().isPhoneNumber(),
+                    label: prove('Phone Label').isRequired().isString()
+                })
+            )
         };
 
         prove(test)(doc).errors.should.eql({
@@ -192,11 +191,13 @@ describe('Array Validator', function () {
         };
 
         var test = {
-            phones: prove([{
-                number: prove('Phone Number').isString().isPhoneNumber()
-            }, {
-                label: prove('Phone Label').isRequired().isString()
-            }])
+            phones: prove('Phones').every(
+                prove({
+                    number: prove('Phone Number').isString().isPhoneNumber()
+                }, {
+                    label: prove('Phone Label').isRequired().isString()
+                })
+            )
         };
 
         prove(test)(doc).errors.should.eql({
@@ -226,10 +227,12 @@ describe('Array Validator', function () {
         };
 
         var test = {
-            phones: prove([{
-                number: prove('Phone Number').isString().isPhoneNumber(),
-                label: prove('Phone Label').isRequired().isString()
-            }])
+            phones: prove().every(
+                prove({
+                    number: prove('Phone Number').isString().isPhoneNumber(),
+                    label: prove('Phone Label').isRequired().isString()
+                })
+            )
         };
 
         prove(test)(doc).errors.should.eql({
@@ -250,10 +253,12 @@ describe('Array Validator', function () {
         };
 
         var test = {
-            phones: prove([{
-                number: prove('Phone Number').isString().isPhoneNumber(),
-                label: prove('Phone Label').isRequired().isString()
-            }])
+            phones: prove().every(
+                prove({
+                    number: prove('Phone Number').isString().isPhoneNumber(),
+                    label: prove('Phone Label').isRequired().isString()
+                })
+            )
         };
 
         prove(test)(doc).errors.should.eql({
