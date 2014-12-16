@@ -1,6 +1,6 @@
 {
   "name": "prove-it",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A validation library designed with re-usability in mind.",
   "author": "Dylan Piercey <pierceydylan@gmail.com>",
   "main": "lib/index.js",
