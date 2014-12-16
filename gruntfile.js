@@ -27,6 +27,5 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('default', ['mochacli', 'browserify']);
-    grunt.registerTask('test', ['mochacli']);
     grunt.registerTask('build', ['browserify']);
 };
