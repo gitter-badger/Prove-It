@@ -34,9 +34,7 @@ describe('Default Validators', function () {
     it('"error" should always add an error message', function () {
         test({
             check: 'error',
-            valid: [
-                common.valueNull
-            ],
+            valid: [],
             invalid: [
                 common.integerNumber,
                 common.floatNumber,
@@ -63,7 +61,8 @@ describe('Default Validators', function () {
                 common.booleanString0,
                 common.booleanString1,
                 common.typeEmailAddress,
-                common.typeMongoIdString
+                common.typeMongoIdString,
+                common.valueNull
             ]
         });
     });
@@ -90,8 +89,7 @@ describe('Default Validators', function () {
                 common.booleanString0,
                 common.booleanString1,
                 common.typeEmailAddress,
-                common.typeMongoIdString,
-                common.valueNull
+                common.typeMongoIdString
             ],
             invalid: [
                 common.integerNumber,
@@ -100,7 +98,8 @@ describe('Default Validators', function () {
                 common.booleanTrue,
                 common.booleanFalse,
                 common.booleanInt0,
-                common.booleanInt1
+                common.booleanInt1,
+                common.valueNull
             ]
         });
     });
@@ -114,8 +113,7 @@ describe('Default Validators', function () {
                 common.booleanInt0,
                 common.booleanInt1,
                 common.booleanFalse,
-                common.booleanTrue,
-                common.valueNull
+                common.booleanTrue
             ],
             invalid: [
                 common.asciiString,
@@ -137,7 +135,8 @@ describe('Default Validators', function () {
                 common.floatNumber,
                 common.numericExponentNumber,
                 common.typeEmailAddress,
-                common.typeMongoIdString
+                common.typeMongoIdString,
+                common.valueNull
             ]
         });
     });
@@ -165,8 +164,7 @@ describe('Default Validators', function () {
                 common.typeEmailAddress,
                 common.typeMongoIdString,
                 common.arrayIndexedIntegers,
-                common.arrayIndexedStrings,
-                common.valueNull
+                common.arrayIndexedStrings
             ],
             invalid: [
                 common.integerNumber,
@@ -177,7 +175,8 @@ describe('Default Validators', function () {
                 common.booleanInt0,
                 common.booleanInt1,
                 common.arrayEmpty,
-                common.valueEmptyString
+                common.valueEmptyString,
+                common.valueNull
             ]
         });
     });
@@ -251,11 +250,11 @@ describe('Default Validators', function () {
             check: 'isPostalCode',
             valid: [
                 '90210',
-                'K1A-0A6',
-                common.valueNull
+                'K1A-0A6'
             ],
             invalid: [
-                common.valueEmptyString
+                common.valueEmptyString,
+                common.valueNull
             ]
         });
     });

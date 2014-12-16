@@ -469,11 +469,11 @@ describe('ValidatorJS', function () {
             valid: [
                 '',
                 NaN,
-                [],
-                undefined,
-                null
+                []
             ],
             invalid: [
+                undefined,
+                null,
                 ' ',
                 'foo'
             ]

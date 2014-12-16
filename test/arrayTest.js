@@ -33,20 +33,18 @@ describe('Array Validator', function () {
                 first: prove('First Name').isString().isLength(4),
                 last: prove('Last Name').isString().isLength(6)
             }),
-            dates: prove(function (date) {
+            dates: prove('Date').run(function (date) {
                 if (null != date) {
                     return prove({
                         start: prove('Start date').isDate().isBefore(date.end),
                         end: prove('End date').isDate().isAfter(date.start)
                     });
-                } else {
-                    return prove('Date').isRequired();
                 }
             }),
             phones: prove('Phones').every( // Prove an entire array.
                 prove({
                     number: prove('Phone Number').isString().isPhoneNumber(),
-                    label: prove('Phone Label').isRequired().isString()
+                    label: prove('Phone Label').isString()
                 })
             )
         };
@@ -157,7 +155,7 @@ describe('Array Validator', function () {
             phones: prove('Phones').every(
                 prove({
                     number: prove('Phone Number').isString().isPhoneNumber(),
-                    label: prove('Phone Label').isRequired().isString()
+                    label: prove('Phone Label').isString()
                 })
             )
         };
@@ -195,7 +193,7 @@ describe('Array Validator', function () {
                 prove({
                     number: prove('Phone Number').isString().isPhoneNumber()
                 }, {
-                    label: prove('Phone Label').isRequired().isString()
+                    label: prove('Phone Label').isString()
                 })
             )
         };
@@ -230,7 +228,7 @@ describe('Array Validator', function () {
             phones: prove().every(
                 prove({
                     number: prove('Phone Number').isString().isPhoneNumber(),
-                    label: prove('Phone Label').isRequired().isString()
+                    label: prove('Phone Label').isString()
                 })
             )
         };
@@ -256,7 +254,7 @@ describe('Array Validator', function () {
             phones: prove().every(
                 prove({
                     number: prove('Phone Number').isString().isPhoneNumber(),
-                    label: prove('Phone Label').isRequired().isString()
+                    label: prove('Phone Label').isString()
                 })
             )
         };

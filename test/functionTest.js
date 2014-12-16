@@ -7,7 +7,7 @@ describe('Function Validator', function () {
     it('should validate a simple array with a function', function () {
         var doc = ['555555', 1];
 
-        var test = prove(function (/**val*/) {
+        var test = prove().run(function (/**val*/) {
             return prove().every(prove('Phone Number').isString().isPhoneNumber());
         });
 
@@ -32,7 +32,7 @@ describe('Function Validator', function () {
         };
 
 
-        var test = prove(function (/**val*/) {
+        var test = prove().run(function (/**val*/) {
             return prove({
                 name: prove({
                     first: prove('First Name').isString().isLength(6),

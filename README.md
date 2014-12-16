@@ -75,25 +75,21 @@ var contactValidation = {
         first: prove('First Name').isString().isLength(4),
         last: prove('Last Name').isString().isLength(6)
     }),
-    dates: prove(function (date) {
-        if (null != date) {
-            return prove({
-                start: prove('Start date').isDate().isBefore(date.end),
-                end: prove('End date').isDate().isAfter(date.start)
-            });
-        } else {
-            return prove('Date').isRequired();
-        }
+    dates: prove('Date').run(function (date) {
+        return prove({
+            start: prove('Start date').isDate().isBefore(date.end),
+            end: prove('End date').isDate().isAfter(date.start)
+        });
     }),
     phones: prove('Phones').every( // Prove an entire array.
         prove({
             number: prove('Phone Number').isString().isPhoneNumber(),
-            label: prove('Phone Label').isRequired().isString()
+            label: prove('Phone Label').isString()
         })
     )
 };
 
-var passed = prove(contactValidation, /**Merge other validations here!*/).test(doc);
+var passed = prove(contactValidation, /**Merge other object validations here!*/).test(doc);
 
 if (true === passed) {
     // Success!
@@ -270,18 +266,21 @@ var myCollectionValidator = prove().every(
 ```
 
 ##Function Validator
-Invoking Prove-It with a function will pass the function the current sub-document as a value.
-The returned value will be passed through Prove-It again and tested with the value.
+
+1) Invoke Prove-It and chain with #run.
+2) All functions passed will be passed the current sub-document and can return a test or undefined (results in true).
+
+Note: If the path of the returned validator is '{PATH}' its errors will be interpolated.
 
 Eg.
 
 ```JavaScript
-var myFunctionValidator = prove(function (val) {
+var myFunctionValidator = prove('My field').run(function (val) {
     // ... Do stuff with val.
     if (val === something) {
-        return prove('This value').isString();
+        return prove('This value').isString(); // Path is overwritten with 'This value'.
     } else {
-        return prove('This value').isNumeric();
+        return prove('{PATH}').isNumeric(); // Path is 'My Field'.
     }
 });
 ```

@@ -5,16 +5,16 @@ var prove = require('../lib/index.js');
 
 describe('Chain Validator', function () {
 
-    it('should provide an "isRequired" method', function () {
-        prove().should.have.property('isRequired');
+    it('should provide an "isOptional" method', function () {
+        prove().should.have.property('isOptional');
     });
 
-    it('should accept null or undefined for all tests', function () {
+    it('should not accept null or undefined for all tests', function () {
         var validators = prove();
         for (var name in validators) {
-            if (validators.hasOwnProperty(name) && !/end|test|isRequired/.test(name)) {
-                prove()[name]().test(undefined).should.equal(true);
-                prove()[name]().test(null).should.equal(true);
+            if (validators.hasOwnProperty(name) && !/test|isOptional/.test(name)) {
+                prove()[name]().test(undefined).should.not.equal(true);
+                prove()[name]().test(null).should.not.equal(true);
             }
         }
     });

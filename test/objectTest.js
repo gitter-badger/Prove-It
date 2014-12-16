@@ -130,10 +130,10 @@ describe('Object Validator', function () {
 
         var test = {
             name: prove({
-                first: prove('First Name').isString().isLength(4),
-                last: prove('Last Name').isRequired().isString().isLength(4)
+                first: prove('First Name').isOptional().isString().isLength(4),
+                last: prove('Last Name').isString().isLength(4)
             }),
-            phone: prove('Phone Number').isRequired().isPhoneNumber()
+            phone: prove('Phone Number').isPhoneNumber()
         };
 
         prove(test).test(doc).errors.should.eql({
