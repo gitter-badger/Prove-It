@@ -268,6 +268,7 @@ var myCollectionValidator = prove().every(
 ##Function Validator
 
 1) Invoke Prove-It and chain with #run.
+
 2) All functions passed will be passed the current sub-document and can return a test or undefined (results in true).
 
 Note: If the path of the returned validator is '{PATH}' its errors will be interpolated.
