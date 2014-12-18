@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - default/validatorjs.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>default/validatorjs.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">78.55</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">268</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">23.87</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">1.70</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">&#039;use strict&#039;;
+
+var prove = require(&#039;../index.js&#039;);
+var validator = require(&#039;./validator.min.js&#039;);
+var fillRight = function(fn){
+    var args = [].slice.call(arguments, 1);
+    return function(){
+        return fn.apply(this, [].slice.call(arguments, 0).concat(args));
+    };
+};
+
+/**
+ * Validator JS Documentation:
+ * https://www.npmjs.org/package/validator
+ */
+prove.extend({
+    equals: function(comparison){
+        return {
+            validator: fillRight(validator.equals, comparison),
+            msg: &#039;{PATH} should be &#039; + comparison
+        };
+    },
+
+    contains: function(seed){
+        return {
+            validator: fillRight(validator.contains, seed),
+            msg: &#039;{PATH} should contain &#039; + seed
+        };
+    },
+
+    matches: function(pattern, modifiers){
+        return {
+            validator: fillRight(validator.matches, pattern, modifiers),
+            msg: &#039;{PATH} should match &#039; + pattern
+        };
+    },
+
+    isEmail: function(){
+        return {
+            validator: validator.isEmail,
+            msg: &#039;{PATH} should be an email&#039;
+        };
+    },
+
+    isURL: function(options){
+        return {
+            validator: fillRight(validator.isURL, options),
+            msg: &#039;{PATH} should be a URL&#039;
+        };
+    },
+
+    isFQDN: function(options){
+        return {
+            validator: fillRight(validator.isFQDN, options),
+            msg: &#039;{PATH} should be a fully qualified domain name&#039;
+        };
+    },
+
+    isIP: function(version){
+        return {
+            validator: fillRight(validator.isIP, version),
+            msg: &#039;{PATH} should be an ipv&#039; + version + &#039; address&#039;
+        };
+    },
+
+    isAlpha: function(){
+        return {
+            validator: validator.isAlpha,
+            msg: &#039;{PATH} should only contain letters&#039;
+        };
+    },
+
+    isNumeric: function(){
+        return {
+            validator: validator.isNumeric,
+            msg: &#039;{PATH} should only contain numbers&#039;
+        };
+    },
+
+    isAlphanumeric: function(){
+        return {
+            validator: validator.isAlphanumeric,
+            msg: &#039;{PATH} should only contain letters and numbers&#039;
+        };
+    },
+
+    isBase64: function(){
+        return {
+            validator: validator.isBase64,
+            msg: &#039;{PATH} should be base64 encoded&#039;
+        };
+    },
+
+    isHexadecimal: function(){
+        return {
+            validator: validator.isHexadecimal,
+            msg: &#039;{PATH} should be hexadecimal&#039;
+        };
+    },
+
+    isHexColor: function(){
+        return {
+            validator: validator.isHexColor,
+            msg: &#039;{PATH} should be a hex color&#039;
+        };
+    },
+
+    isLowercase: function(){
+        return {
+            validator: validator.isLowercase,
+            msg: &#039;{PATH} should be lowercase&#039;
+        };
+    },
+
+    isUppercase: function(){
+        return {
+            validator: validator.isUppercase,
+            msg: &#039;{PATH} should be uppercase&#039;
+        };
+    },
+
+    isInt: function(){
+        return {
+            validator: validator.isInt,
+            msg: &#039;{PATH} should be an integer&#039;
+        };
+    },
+
+    isFloat: function(){
+        return {
+            validator: validator.isFloat,
+            msg: &#039;{PATH} should be a float&#039;
+        };
+    },
+
+    isDivisibleBy: function(num){
+        return {
+            validator: fillRight(validator.isDivisibleBy, num),
+            msg: &#039;{PATH} should be divisible by &#039; + num
+        };
+    },
+
+    isNull: function(){
+        return {
+            validator: validator.isNull,
+            msg: &#039;{PATH} should be null&#039;
+        };
+    },
+
+    isLength: function(min, max){
+        return {
+            validator: fillRight(validator.isLength, min, max),
+            msg: (max)?
+                &#039;{PATH} should be within &#039; + min + &#039;-&#039; + max + &#039; characters long&#039;:
+                &#039;{PATH} should be more than &#039; + min + &#039; characters long&#039;
+        };
+    },
+
+    isByteLength: function(min, max){
+        return {
+            validator: fillRight(validator.isByteLength, min, max),
+            msg: (max)?
+                &#039;{PATH} should be within &#039; + min + &#039;-&#039; + max + &#039; bytes&#039;:
+                &#039;{PATH} should be more than &#039; + min + &#039; bytes&#039;
+        };
+    },
+
+    isUUID: function(version){
+        return {
+            validator: fillRight(validator.isUUID, version),
+            msg: &#039;{PATH} should be a UUID version &#039; + version
+        };
+    },
+
+    isDate: function(){
+        return {
+            validator: validator.isDate,
+            msg: &#039;{PATH} should be a date&#039;
+        };
+    },
+
+    isAfter: function(date){
+        return {
+            validator: fillRight(validator.isAfter, date),
+            msg: &#039;{PATH} should be after &#039; + date
+        };
+    },
+
+    isBefore: function(date){
+        return {
+            validator: fillRight(validator.isBefore, date),
+            msg: &#039;{PATH} should be before &#039; + date
+        };
+    },
+
+    isIn: function(values){
+        values = values || [];
+        return {
+            validator: fillRight(validator.isIn, values),
+            msg: (Array.isArray(values))?
+                &#039;{PATH} should be &#039; + values.slice(0, values.length - 1).join(&#039;, &#039;) + &#039; or &#039; + values[values.length - 1]
+                : &#039;{PATH} should be &#039; + values
+        };
+    },
+
+    isCreditCard: function(){
+        return {
+            validator: validator.isCreditCard,
+            msg: &#039;{PATH} should be a credit card number&#039;
+        };
+    },
+
+    isISBN: function(version){
+        return {
+            validator: fillRight(validator.isISBN, version),
+            msg: &#039;{PATH} should be an ISBN&#039;
+        };
+    },
+
+    isJSON: function(){
+        return {
+            validator: validator.isJSON,
+            msg: &#039;{PATH} should be JSON&#039;
+        };
+    },
+
+    isMultibyte: function(){
+        return {
+            validator: validator.isMultibyte,
+            msg: &#039;{PATH} should contain one or more multibyte characters&#039;
+        };
+    },
+
+    isAscii: function(){
+        return {
+            validator: validator.isAscii,
+            msg: &#039;{PATH} should only contain ASCII characters&#039;
+        };
+    },
+
+    isFullWidth: function(){
+        return {
+            validator: validator.isFullWidth,
+            msg: &#039;{PATH} should contain fullwidth characters&#039;
+        };
+    },
+
+    isHalfWidth: function(){
+        return {
+            validator: validator.isHalfWidth,
+            msg: &#039;{PATH} should contain halfwidth characters&#039;
+        };
+    },
+
+    isVariableWidth: function(){
+        return {
+            validator: validator.isVariableWidth,
+            msg: &#039;{PATH} should contain a mixture of fullwidth and halfwidth characters&#039;
+        };
+    },
+
+    isSurrogatePair: function(){
+        return {
+            validator: validator.isSurrogatePair,
+            msg: &#039;{PATH} should contain surrogate pair characters&#039;
+        };
+    }
+});</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ complexity.cyclomatic }} <br>
+    Length : {{ complexity.halstead.length }} <br>
+    Difficulty : {{ complexity.halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ complexity.halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
