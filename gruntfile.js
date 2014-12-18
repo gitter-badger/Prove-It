@@ -3,6 +3,7 @@
 module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-plato');
 
     grunt.initConfig({
         mochacli: {
@@ -11,6 +12,7 @@ module.exports = function (grunt) {
             },
             all: 'test/**/*Test.js'
         },
+
         browserify: {
             dist: {
                 files: {
@@ -23,9 +25,23 @@ module.exports = function (grunt) {
                     transform: ['uglifyify']
                 }
             }
+        },
+
+        plato: {
+            dist: {
+                options: {
+                    title: 'Prove-It',
+                    jshint : grunt.file.readJSON('.jshintrc'),
+                    exclude: /\.min\.js$/
+                },
+                files: {
+                    'bin/reports': ['lib/**/*.js']
+                }
+            }
         }
     });
 
     grunt.registerTask('default', ['mochacli', 'browserify']);
     grunt.registerTask('build', ['browserify']);
+    grunt.registerTask('report', ['plato']);
 };
