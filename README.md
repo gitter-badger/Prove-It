@@ -2,6 +2,8 @@
 
 ###[See the list of default validators](https://github.com/DylanPiercey/Prove-It/blob/master/Validators.md)
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/DylanPiercey/Prove-It?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
     Create composable, re-usable validators with in-depth, client-friendly error messages.
 
 #Installation
