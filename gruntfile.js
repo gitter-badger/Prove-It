@@ -1,16 +1,24 @@
 'use strict';
 
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.loadNpmTasks('grunt-plato');
+    grunt.loadNpmTasks('grunt-mocha-istanbul');
 
     grunt.initConfig({
-        mochacli: {
-            options: {
-                reporter: 'spec'
-            },
-            all: 'test/**/*Test.js'
+        mocha_istanbul: {
+            coveralls: {
+                src: 'test/**/*Test.js',
+                options: {
+                    coverageFolder: 'bin/coverage',
+                    coverage:true,
+                    check: {
+                        lines: 75,
+                        statements: 75
+                    },
+                    root: './lib'
+                }
+            }
         },
 
         browserify: {
@@ -41,7 +49,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('default', ['mochacli', 'browserify']);
+    grunt.registerTask('default', ['mocha_istanbul', 'browserify']);
     grunt.registerTask('build', ['browserify']);
     grunt.registerTask('report', ['plato']);
 };
